@@ -81,6 +81,9 @@ training history receive the popularity list as a fallback. It exceeds the warm
 score because new accounts tend to rate mainstream films, making them an easier
 population to predict - not a better-served one.
 
+For the API demo, `match` is a rank-based percentage within the returned list,
+not a calibrated confidence score.
+
 ## Limitations
 
 - The catalog ends around 1998, so every recommendation is a pre-1999 film.

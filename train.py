@@ -80,10 +80,21 @@ for epoch in range(epochs):
 	test_rmse = np.sqrt(test_squared_error / len(test_ratings))
 	print(f"epoch {epoch + 1}: train_rmse={rmse} test_rmse={test_rmse}")
 
+train_user_idx = ratings[:, 0].astype(int)
+train_item_idx = ratings[:, 1].astype(int)
+train_scores = mu + bu[train_user_idx] + bi[train_item_idx] + np.sum(
+	P[train_user_idx] * Q[train_item_idx],
+	axis=1,
+)
+lo, hi = np.percentile(train_scores, [5, 95])
+
 np.save("data/P.npy", P)
 np.save("data/Q.npy", Q)
 np.save("data/bu.npy", bu)
 np.save("data/bi.npy", bi)
+
+with open("data/meta.json", "w", encoding="utf-8") as handle:
+	json.dump({"mu": float(mu), "lo": float(lo), "hi": float(hi)}, handle)
 
 with open("data/user_map.json", "w", encoding="utf-8") as handle:
 	json.dump({int(uid): int(index) for uid, index in user_map.items()}, handle)
