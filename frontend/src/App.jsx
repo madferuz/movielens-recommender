@@ -78,16 +78,46 @@ export default function App() {
         </>
       )}
 
-      {step === "results" && (
-        <>
-          <h1>Recommended for you</h1>
-          {recs.map((r) => (
-            <div key={r.item_id} style={{ padding: "8px 0" }}>
-              {r.title} — {r.match}%
+{step === "results" && (
+  <>
+    <h1 style={{ marginBottom: 4 }}>Recommended for you</h1>
+    <p style={{ color: "#666", marginTop: 0, marginBottom: 20 }}>
+      Based on {Object.keys(ratings).length} films you rated
+    </p>
+    <div style={{ border: "1px solid #e5e5e5", borderRadius: 12, overflow: "hidden" }}>
+      {recs.map((r, i) => (
+        <div
+          key={r.item_id}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
+            padding: "14px 18px",
+            borderBottom: i < recs.length - 1 ? "1px solid #eee" : "none",
+          }}
+        >
+          <div style={{ color: "#999", minWidth: 18, fontSize: 13 }}>{i + 1}</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontWeight: 500 }}>{r.title}</div>
+            <div style={{ color: "#666", fontSize: 13 }}>
+              {r.year} · {r.genres.join(", ")} · {r.n_ratings} ratings
             </div>
-          ))}
-        </>
-      )}
+          </div>
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontWeight: 500, color: "#2563eb" }}>{Math.round(r.match)}%</div>
+            <div style={{ fontSize: 11, color: "#999" }}>match</div>
+          </div>
+        </div>
+      ))}
+    </div>
+    <button
+      onClick={() => { setStep("genre"); setRatings({}); }}
+      style={{ marginTop: 16, padding: "10px 16px" }}
+    >
+      Start over
+    </button>
+</>
+)}
     </div>
   );
 }
