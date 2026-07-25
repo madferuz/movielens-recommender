@@ -1,5 +1,6 @@
 import json
 from contextlib import asynccontextmanager
+import os
 
 import numpy as np
 from fastapi import FastAPI
@@ -42,7 +43,7 @@ app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
 	CORSMiddleware,
-	allow_origins=["http://localhost:5173"],
+	allow_origins=os.environ.get("FRONTEND_URL", "http://localhost:5173").split(","),
 	allow_credentials=True,
 	allow_methods=["*"],
 	allow_headers=["*"],
